@@ -1,4 +1,5 @@
 import streamlit as st
+import pandas as pd
 
 st.title('Zaidan Machine Learning App')
 st.info('this is machine learning app')
