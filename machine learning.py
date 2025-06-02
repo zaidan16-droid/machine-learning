@@ -6,5 +6,3 @@ st.info('this is machine learning app')
 
 df = pd.read_csv('https://raw.githubusercontent.com/dataprofessor/data/refs/heads/master/california_housing_test.csv')
 df
-
-with st.expander
