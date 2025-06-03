@@ -5,11 +5,35 @@ st.title('Zaidan Machine Learning App')
 
 st.info('this is machine learning app')
 
-with st.expander('Data'):
-  st.write('**Raw data**')
-df = pd.read_csv('https://raw.githubusercontent.com/dataprofessor/data/refs/heads/master/california_housing_test.csv')
-df
+uploaded_file = st.file_uploader('Choose a CSV file', type='csv')
 
-with st.expander('Data visualization'):
-  st.scatter_chart(data=df, x='median_income', y='median_house_value')
+if uploaded_file is not None:
+    df = pd.read_csv(uploaded_file)
+  
+    st.subheader('Data Preview')
+    st.write(df.head())
 
+    st.subheader('Data Sumarry')
+    st.write(df.describe())
+
+    st.subheader('Filter Data')
+    columns = df.columns.tolist()
+    selected_column = st.selectbox('Select column to filter by', columns)
+    unique_values = df[selected_column].unique()
+    selected_value = st.selectbox('Select value', unique_values)
+
+    filtered_df = df[df[selected_column] == selected_value]
+    st.write(filtered_df)
+
+    st.subheader('Plot Data')
+    x_column = st.selectbox('Select x-axis column', columns)
+    y_column = st.selectbox('Select y-axis column', columns)
+
+    if st.button('Generate Plot'):
+         st.line_chart(filtered_df.set_index(x_column)[y_column])
+
+else:
+    st.write('Waiting for file upload...')
+  
+
+     
