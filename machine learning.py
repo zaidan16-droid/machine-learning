@@ -3,8 +3,6 @@ import pandas as pd
 
 st.title('Zaidan Machine Learning App')
 
-st.info('this is machine learning app')
-
 uploaded_file = st.file_uploader('Choose a CSV file', type='csv')
 
 if uploaded_file is not None:
