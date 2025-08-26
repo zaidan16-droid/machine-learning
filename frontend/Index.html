@@ -1,0 +1,31 @@
+<!doctype html>
+<html>
+<head><meta charset="utf-8"><title>Credit Checker</title></head>
+<body>
+  <h2>Credit Analysis Demo</h2>
+  <label>Age: <input id="age" type="number" value="30"></label><br>
+  <label>Income: <input id="income" type="number" value="4000"></label><br>
+  <label>Loan Amount: <input id="loan" type="number" value="1500"></label><br>
+  <button id="check">Check</button>
+
+  <pre id="result"></pre>
+
+  <script>
+  document.getElementById('check').onclick = async () => {
+    const body = {
+      age: Number(document.getElementById('age').value),
+      income: Number(document.getElementById('income').value),
+      loan_amt: Number(document.getElementById('loan').value)
+    };
+    // Jika Anda deploy ke Vercel root, endpoint akan relatif /api/predict
+    const res = await fetch('/api/predict', {
+      method: 'POST',
+      headers: {'Content-Type':'application/json'},
+      body: JSON.stringify(body)
+    });
+    const j = await res.json();
+    document.getElementById('result').textContent = JSON.stringify(j, null, 2);
+  };
+  </script>
+</body>
+</html>
