@@ -1,31 +1,42 @@
 <!doctype html>
 <html>
-<head><meta charset="utf-8"><title>Credit Checker</title></head>
+<head>
+  <meta charset="utf-8">
+  <title>Credit Analysis Demo</title>
+</head>
 <body>
-  <h2>Credit Analysis Demo</h2>
+  <h2>Credit Analysis</h2>
+
   <label>Age: <input id="age" type="number" value="30"></label><br>
   <label>Income: <input id="income" type="number" value="4000"></label><br>
-  <label>Loan Amount: <input id="loan" type="number" value="1500"></label><br>
-  <button id="check">Check</button>
-
+  <label>Loan Amount: <input id="loan" type="number" value="1500"></label><br><br>
+  
+  <button id="predictBtn">Prediksi</button>
+  
+  <h3>Hasil:</h3>
   <pre id="result"></pre>
 
   <script>
-  document.getElementById('check').onclick = async () => {
-    const body = {
-      age: Number(document.getElementById('age').value),
-      income: Number(document.getElementById('income').value),
-      loan_amt: Number(document.getElementById('loan').value)
+    document.getElementById('predictBtn').onclick = async () => {
+      const body = {
+        age: Number(document.getElementById('age').value),
+        income: Number(document.getElementById('income').value),
+        loan_amt: Number(document.getElementById('loan').value)
+      };
+
+      try {
+        const res = await fetch('/api/predict', {
+          method: 'POST',
+          headers: {'Content-Type':'application/json'},
+          body: JSON.stringify(body)
+        });
+
+        const data = await res.json();
+        document.getElementById('result').textContent = JSON.stringify(data, null, 2);
+      } catch (err) {
+        document.getElementById('result').textContent = 'Error: ' + err;
+      }
     };
-    // Jika Anda deploy ke Vercel root, endpoint akan relatif /api/predict
-    const res = await fetch('/api/predict', {
-      method: 'POST',
-      headers: {'Content-Type':'application/json'},
-      body: JSON.stringify(body)
-    });
-    const j = await res.json();
-    document.getElementById('result').textContent = JSON.stringify(j, null, 2);
-  };
   </script>
 </body>
 </html>
