@@ -1,22 +1,26 @@
 import pandas as pd
-from sklearn.ensemble import RandomForestClassifier
+from sklearn.linear_model import LogisticRegression
 from sklearn.model_selection import train_test_split
-from sklearn.preprocessing import StandardScaler
-from sklearn.pipeline import make_pipeline
 import joblib
 
+# === Dataset dummy ===
+# Fitur: age, income, loan_amt
+# Label: 0 = lancar, 1 = default
 data = {
-    "age": [25,45,36,50,22,40,30,29],
-    "income": [3000,7000,4000,10000,2000,6000,3500,3200],
-    "loan_amt": [1000,2000,1500,5000,500,1200,2000,1700],
-    "default": [0,0,0,1,0,0,1,0]
+    "age": [22, 25, 30, 40, 45, 50],
+    "income": [2000, 3000, 4000, 6000, 7000, 10000],
+    "loan_amt": [500, 1000, 1500, 2000, 2500, 5000],
+    "default": [0, 0, 0, 1, 1, 1]
 }
 df = pd.DataFrame(data)
-X = df[["age","income","loan_amt"]]
+
+X = df[["age", "income", "loan_amt"]]
 y = df["default"]
 
-pipe = make_pipeline(StandardScaler(), RandomForestClassifier(n_estimators=50, random_state=42))
-pipe.fit(X, y)
+# === Model ringan ===
+model = LogisticRegression()
+model.fit(X, y)
 
-joblib.dump(pipe, "model.joblib")
-print("Model saved -> model.joblib")
+# Simpan model ke file
+joblib.dump(model, "model.joblib")
+print("✅ Model disimpan ke model.joblib")
